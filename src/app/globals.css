@@ -2,32 +2,164 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
 
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    /* Soft Navy Library Theme */
+    --background: 35 25% 98%;
+    --foreground: 215 25% 27%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 27%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 27%;
+
+    /* Soft Navy Primary */
+    --primary: 215 25% 27%;
+    --primary-foreground: 35 25% 98%;
+
+    /* Soft Secondary */
+    --secondary: 210 17% 93%;
+    --secondary-foreground: 215 25% 27%;
+
+    --muted: 210 17% 95%;
+    --muted-foreground: 215 10% 46%;
+
+    /* Soft Accent */
+    --accent: 210 25% 90%;
+    --accent-foreground: 215 25% 27%;
+
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 210 20% 88%;
+    --input: 210 20% 88%;
+    --ring: 215 25% 27%;
+
+    /* Custom Library Colors */
+    --navy-soft: 215 25% 27%;
+    --navy-light: 215 15% 35%;
+    --cream: 35 25% 98%;
+    --warm-gray: 210 10% 46%;
+    --soft-blue: 210 25% 90%;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(
+      135deg,
+      hsl(215 25% 27%),
+      hsl(215 15% 35%)
+    );
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(210 17% 95%));
+    --gradient-soft: linear-gradient(180deg, hsl(35 25% 98%), hsl(210 17% 95%));
+
+    /* Shadows */
+    --shadow-soft: 0 4px 20px -2px hsl(215 25% 27% / 0.08);
+    --shadow-card: 0 2px 15px -3px hsl(215 25% 27% / 0.1);
+    --shadow-hover: 0 8px 30px -5px hsl(215 25% 27% / 0.15);
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Soft Navy Library Theme */
+    --background: 35 25% 98%;
+    --foreground: 215 25% 27%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 27%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 27%;
+
+    /* Soft Navy Primary */
+    --primary: 215 25% 27%;
+    --primary-foreground: 35 25% 98%;
+
+    /* Soft Secondary */
+    --secondary: 210 17% 93%;
+    --secondary-foreground: 215 25% 27%;
+
+    --muted: 210 17% 95%;
+    --muted-foreground: 215 10% 46%;
+
+    /* Soft Accent */
+    --accent: 210 25% 90%;
+    --accent-foreground: 215 25% 27%;
+
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 210 20% 88%;
+    --input: 210 20% 88%;
+    --ring: 215 25% 27%;
+
+    /* Custom Library Colors */
+    --navy-soft: 215 25% 27%;
+    --navy-light: 215 15% 35%;
+    --cream: 35 25% 98%;
+    --warm-gray: 210 10% 46%;
+    --soft-blue: 210 25% 90%;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(
+      135deg,
+      hsl(215 25% 27%),
+      hsl(215 15% 35%)
+    );
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(210 17% 95%));
+    --gradient-soft: linear-gradient(180deg, hsl(35 25% 98%), hsl(210 17% 95%));
+
+    /* Shadows */
+    --shadow-soft: 0 4px 20px -2px hsl(215 25% 27% / 0.08);
+    --shadow-card: 0 2px 15px -3px hsl(215 25% 27% / 0.1);
+    --shadow-hover: 0 8px 30px -5px hsl(215 25% 27% / 0.15);
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
+@layer base {
+  * {
+    @apply border-border;
+  }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  body {
+    @apply bg-background text-foreground;
   }
 }

@@ -1,0 +1,123 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id            String           @id @default(cuid())
+  name          String
+  isActive      Boolean          @default(true)
+  role          Role             @default(STUDENT)
+
+  // Relasi ke profile sesuai role
+  studentProfile  StudentProfile?
+  teacherProfile  TeacherProfile?
+  visitorProfile  VisitorProfile?
+
+  visits        Visit[]
+  borrowings    Borrowing[]
+  rewardPoints  RewardPoint[]
+  createdAt     DateTime         @default(now())
+}
+
+enum Role {
+  STUDENT
+  TEACHER
+  VISITOR
+  ADMIN
+}
+
+model StudentProfile {
+  id       String @id @default(cuid())
+  userId   String @unique
+  nis      String // Nomor Induk Siswa
+  grade    String // Kelas, misal: "XI IPA 2"
+  major    String? // jurusan jika ada
+
+  user     User   @relation(fields: [userId], references: [id])
+}
+
+model TeacherProfile {
+  id        String @id @default(cuid())
+  userId    String @unique
+  nip       String // Nomor Induk Pegawai
+  subject   String // mata pelajaran
+  position  String? // wali kelas, dsb
+
+  user      User   @relation(fields: [userId], references: [id])
+}
+
+model VisitorProfile {
+  id        String @id @default(cuid())
+  userId    String @unique
+  address   String?
+  phone     String?
+
+  user      User   @relation(fields: [userId], references: [id])
+}
+
+
+model Book {
+  id          String       @id @default(cuid())
+  title       String
+  author      String
+  publishedAt DateTime?
+  stock       Int          @default(0)
+
+  borrowings  Borrowing[]
+  createdAt   DateTime     @default(now())
+}
+
+
+model Borrowing {
+  id         String   @id @default(cuid())
+  userId     String
+  bookId     String
+  borrowedAt DateTime @default(now())
+  dueDate    DateTime
+  returnedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id])
+  book Book @relation(fields: [bookId], references: [id])
+}
+
+model Visit {
+  id        String   @id @default(cuid())
+  userId    String
+  visitedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model RewardCycle {
+  id         String       @id @default(cuid())
+  title      String       // contoh: "Periode Jan 2025"
+  startDate  DateTime
+  endDate    DateTime?
+  isActive   Boolean      @default(true)
+
+  rewardPoints RewardPoint[]
+}
+
+model RewardPoint {
+  id            String       @id @default(cuid())
+  userId        String
+  rewardCycleId String
+  points        Int          @default(0)
+
+  user         User        @relation(fields: [userId], references: [id])
+  rewardCycle  RewardCycle @relation(fields: [rewardCycleId], references: [id])
+
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+
