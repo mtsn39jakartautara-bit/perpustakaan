@@ -55,33 +55,12 @@ const TopNav = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="p-2 rounded-full bg-secondary hover:bg-secondary/80 transition-colors"
-            >
-              <Search size={20} className="text-secondary-foreground" />
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
               className="p-2 rounded-full bg-accent hover:bg-accent/80 transition-colors relative"
             >
               <Bell size={20} className="text-accent-foreground" />
               <span className="absolute -top-1 -right-1 w-4 h-4 bg-destructive rounded-full flex items-center justify-center">
                 <span className="text-destructive-foreground text-xs">3</span>
               </span>
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={toggleDarkMode}
-              className="p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors"
-            >
-              {isDarkMode ? (
-                <Sun size={20} className="text-muted-foreground" />
-              ) : (
-                <Moon size={20} className="text-muted-foreground" />
-              )}
             </motion.button>
 
             <motion.div
@@ -139,14 +118,6 @@ const TopNav = () => {
               </div>
 
               <nav className="p-6 space-y-4">
-                <motion.button
-                  whileHover={{ x: 5 }}
-                  className="w-full flex items-center space-x-3 p-3 rounded-lg bg-secondary text-left"
-                >
-                  <Search size={20} />
-                  <span>Search</span>
-                </motion.button>
-
                 <motion.button
                   whileHover={{ x: 5 }}
                   className="w-full flex items-center space-x-3 p-3 rounded-lg bg-accent text-left"

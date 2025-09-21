@@ -16,6 +16,7 @@ model User {
   name          String
   isActive      Boolean          @default(true)
   role          Role             @default(STUDENT)
+  password      String
 
   // Relasi ke profile sesuai role
   studentProfile  StudentProfile?
