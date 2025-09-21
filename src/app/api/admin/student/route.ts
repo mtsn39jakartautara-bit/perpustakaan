@@ -1,4 +1,5 @@
 import prisma from "@/utils/prisma";
+import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -30,12 +31,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const defaultPassword = await bcrypt.hash("123456", 10);
+
     const users = await Promise.all(
       body.map((s: any) =>
         prisma.user.create({
           data: {
             name: s.name,
             role: "STUDENT",
+            password: defaultPassword,
             studentProfile: {
               create: {
                 nis: s.nis,
