@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import AppLayout from "@/components/layouts/shell/app-layout";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: "pustakaan MTsN 39 Jakarta Utara - Pusat Literasi Terbaik",
@@ -24,7 +25,9 @@ export default function RootLayout({
     <html lang="id">
       <body>
         <AppLayout>
-          <main>{children}</main>
+          <main>
+            {children} <SpeedInsights />
+          </main>
         </AppLayout>
       </body>
     </html>
