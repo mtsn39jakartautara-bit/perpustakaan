@@ -13,7 +13,7 @@ const LibraryPage = () => {
   const [isExpanded, setIsExpanded] = useState({
     pelajaran: true,
     fiksi: true,
-    referensi: true,
+    agama: true,
   });
 
   const toggleExpand = (kelas: string) => {
@@ -25,8 +25,8 @@ const LibraryPage = () => {
 
   const bookcases = {
     pelajaran: "https://fliphtml5.com/bookcase/urghv/",
-    fiksi: "https://fliphtml5.com/bookcase/urghv/",
-    referensi: "https://fliphtml5.com/bookcase/urghv/",
+    fiksi: "https://fliphtml5.com/bookcase/rsdsk/",
+    agama: "https://fliphtml5.com/bookcase/dsnge/",
   };
 
   const getDisplayName = (key: string) => {
@@ -35,8 +35,8 @@ const LibraryPage = () => {
         return "Buku Pelajaran";
       case "fiksi":
         return "Buku Fiksi dan Non Fiksi";
-      case "referensi":
-        return "Buku Referensi";
+      case "agama":
+        return "Buku Agama";
       default:
         return key;
     }
@@ -70,19 +70,19 @@ const LibraryPage = () => {
               value="pelajaran"
               className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md transition-all"
             >
-              Pelajaran
+              Buku Pelajaran
             </TabsTrigger>
             <TabsTrigger
               value="fiksi"
               className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md transition-all"
             >
-              Fiksi dan Non Fiksi
+              Buku Fiksi
             </TabsTrigger>
             <TabsTrigger
-              value="referensi"
+              value="agama"
               className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md transition-all"
             >
-              Referensi
+              Buku Agama
             </TabsTrigger>
           </TabsList>
 
