@@ -28,7 +28,7 @@ const BottomNav = () => {
       onClick: () => setIsSearchOpen(true), // Tambahkan handler onClick khusus
     },
     {
-      path: "/saved",
+      path: "/history",
       icon: Bookmark,
     },
     {

@@ -85,6 +85,7 @@ model Borrowing {
   borrowedAt DateTime @default(now())
   dueDate    DateTime
   returnedAt DateTime?
+  status     String? @default("active")     
 
   user User @relation(fields: [userId], references: [id])
   book Book @relation(fields: [bookId], references: [id])
