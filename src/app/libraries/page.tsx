@@ -9,11 +9,11 @@ import { BookOpen, ChevronDown, ChevronUp, Search, Filter } from "lucide-react";
 import HeroLibrary from "./components/HeroSection";
 
 const LibraryPage = () => {
-  const [activeTab, setActiveTab] = useState("kelas7");
+  const [activeTab, setActiveTab] = useState("pelajaran");
   const [isExpanded, setIsExpanded] = useState({
-    kelas7: true,
-    kelas8: true,
-    kelas9: true,
+    pelajaran: true,
+    fiksi: true,
+    referensi: true,
   });
 
   const toggleExpand = (kelas: string) => {
@@ -24,9 +24,22 @@ const LibraryPage = () => {
   };
 
   const bookcases = {
-    kelas7: "https://fliphtml5.com/bookcase/urghv/",
-    kelas8: "https://fliphtml5.com/bookcase/urghv/",
-    kelas9: "https://fliphtml5.com/bookcase/urghv/",
+    pelajaran: "https://fliphtml5.com/bookcase/urghv/",
+    fiksi: "https://fliphtml5.com/bookcase/urghv/",
+    referensi: "https://fliphtml5.com/bookcase/urghv/",
+  };
+
+  const getDisplayName = (key: string) => {
+    switch (key) {
+      case "pelajaran":
+        return "Buku Pelajaran";
+      case "fiksi":
+        return "Buku Fiksi dan Non Fiksi";
+      case "referensi":
+        return "Buku Referensi";
+      default:
+        return key;
+    }
   };
 
   return (
@@ -45,8 +58,8 @@ const LibraryPage = () => {
             Rak Buku Digital
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Jelajahi koleksi buku digital untuk setiap kelas. Temukan bacaan
-            menarik yang sesuai dengan tingkat pembelajaran Anda.
+            Jelajahi koleksi buku digital untuk setiap kategori. Temukan bacaan
+            menarik yang sesuai dengan minat pembelajaran Anda.
           </p>
         </motion.div>
 
@@ -54,22 +67,22 @@ const LibraryPage = () => {
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-8">
           <TabsList className="grid w-full grid-cols-3 bg-gradient-card p-1 rounded-lg shadow-card">
             <TabsTrigger
-              value="kelas7"
+              value="pelajaran"
               className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md transition-all"
             >
-              Kelas 7
+              Pelajaran
             </TabsTrigger>
             <TabsTrigger
-              value="kelas8"
+              value="fiksi"
               className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md transition-all"
             >
-              Kelas 8
+              Fiksi dan Non Fiksi
             </TabsTrigger>
             <TabsTrigger
-              value="kelas9"
+              value="referensi"
               className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md transition-all"
             >
-              Kelas 9
+              Referensi
             </TabsTrigger>
           </TabsList>
 
@@ -89,7 +102,7 @@ const LibraryPage = () => {
                       onClick={() => toggleExpand(kelas)}
                     >
                       <h3 className="text-xl font-semibold text-foreground">
-                        Rak Buku Kelas {kelas.slice(-1)}
+                        {getDisplayName(kelas)}
                       </h3>
                       <Button
                         variant="ghost"
@@ -122,7 +135,6 @@ const LibraryPage = () => {
                             className="w-full h-[600px] border-0"
                             seamless
                             scrolling="no"
-                            allowTransparency
                             allowFullScreen
                             loading="lazy"
                           />
@@ -149,7 +161,7 @@ const LibraryPage = () => {
           </Card>
           <Card className="text-center p-6 bg-gradient-card border-border shadow-soft">
             <div className="text-3xl font-bold text-primary mb-2">3</div>
-            <p className="text-muted-foreground">Kategori Kelas</p>
+            <p className="text-muted-foreground">Kategori Buku</p>
           </Card>
           <Card className="text-center p-6 bg-gradient-card border-border shadow-soft">
             <div className="text-3xl font-bold text-primary mb-2">24/7</div>
