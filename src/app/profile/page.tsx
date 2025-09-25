@@ -24,6 +24,7 @@ import {
   Edit,
 } from "lucide-react";
 import HeroProfile from "./components/heroProfile";
+import { signOut } from "next-auth/react";
 
 // Mock data based on your schema
 interface UserData {
@@ -283,9 +284,14 @@ const ProfilePage = () => {
                     <User className="h-5 w-5" />
                     Informasi Pribadi
                   </CardTitle>
-                  <Button variant="outline" size="sm" className="gap-2">
+                  <Button
+                    onClick={() => signOut()}
+                    variant="outline"
+                    size="sm"
+                    className="gap-2"
+                  >
                     <Edit className="h-4 w-4" />
-                    Edit
+                    logout
                   </Button>
                 </CardHeader>
                 <CardContent className="space-y-4">

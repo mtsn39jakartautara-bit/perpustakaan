@@ -14,12 +14,12 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        login: { label: "Email / Username / NIS", type: "text" },
+        login: { label: "NIS", type: "text" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials?.login || !credentials?.password) {
-          throw new Error("Masukkan email/username/nis & password");
+          throw new Error("nis & password");
         }
 
         const user = await prisma.user.findFirst({
@@ -70,5 +70,13 @@ export const authOptions: NextAuthOptions = {
       };
       return session;
     },
+    redirect({ url, baseUrl }) {
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
+    },
+  },
+  pages: {
+    error: "/",
   },
 };

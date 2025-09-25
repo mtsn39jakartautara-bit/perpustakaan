@@ -7,8 +7,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, ChevronDown, ChevronUp, Search, Filter } from "lucide-react";
 import HeroLibrary from "./components/HeroSection";
+import VisitPopup from "./components/VisitPopUp";
+import { useSession } from "next-auth/react";
 
 const LibraryPage = () => {
+  const { data: session, status } = useSession();
+  const [showPopup, setShowPopup] = useState(true);
+
   const [activeTab, setActiveTab] = useState("pelajaran");
   const [isExpanded, setIsExpanded] = useState({
     pelajaran: true,
@@ -44,6 +49,11 @@ const LibraryPage = () => {
 
   return (
     <>
+      <VisitPopup
+        userId={session?.user.id as string}
+        isOpen={showPopup}
+        onComplete={() => setShowPopup(false)}
+      />
       <HeroLibrary />
 
       <div className="container mx-auto px-4 py-12">

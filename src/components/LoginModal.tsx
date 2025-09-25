@@ -17,9 +17,13 @@ import {
   School,
   Mail,
 } from "lucide-react";
+import { signIn } from "next-auth/react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface LoginModalProps {
   isOpen: boolean;
+  callbackUrl: string;
   onClose: () => void;
   onSwitchToRegister: () => void;
 }
@@ -28,9 +32,11 @@ const LoginModal = ({
   isOpen,
   onClose,
   onSwitchToRegister,
+  callbackUrl,
 }: LoginModalProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -40,6 +46,7 @@ const LoginModal = ({
     password: "",
   });
 
+  const router = useRouter();
   const usernameRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -121,16 +128,28 @@ const LoginModal = ({
 
     try {
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const res = await signIn("credentials", {
+        redirect: false,
+        login: formData.username,
+        password: formData.password,
+        callbackUrl: callbackUrl,
+      });
 
-      // Here you would typically make an API call to your authentication service
-      console.log("Login attempt with:", formData);
+      console.log(res);
+      if (res?.error) {
+        toast.error("Login gagal. Periksa kembali credentials Anda.");
+        return;
+      }
+      if (res?.url) {
+        window.location.href = res.url;
 
-      // On successful login
-      onClose();
-      // You might want to add a success toast or redirect here
+        // On successful login
+        onClose();
+        toast.success("Login berhasil!");
+      }
     } catch (error) {
       console.error("Login error:", error);
+      toast.error("Login gagal. Periksa kembali credentials Anda.");
       setErrors({
         username: "Login gagal. Periksa kembali credentials Anda.",
         password: "",
@@ -209,7 +228,7 @@ const LoginModal = ({
                 {/* Username/Email Field */}
                 <div className="space-y-2">
                   <Label htmlFor="username" className="text-foreground">
-                    Username atau Email
+                    NISN
                   </Label>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
@@ -218,7 +237,7 @@ const LoginModal = ({
                       id="username"
                       name="username"
                       type="text"
-                      placeholder="Masukkan username atau email"
+                      placeholder="Masukkan NISN anda"
                       value={formData.username}
                       onChange={handleInputChange}
                       className="pl-10 pr-4 py-3 border-border focus:ring-2 focus:ring-ring"
