@@ -7,6 +7,7 @@ import AwardSections from "@/components/Award";
 import LoginModalHome from "@/components/LoginModalHome";
 import { fontWorkSans } from "@/lib/fonts";
 import { Suspense } from "react";
+import HeroSection from "@/components/HeroSection";
 
 export default function Home() {
   const font3 = fontWorkSans.className;
@@ -17,7 +18,7 @@ export default function Home() {
         <LoginModalHome />
 
         {/* Sections */}
-        {/* <HeroSection /> */}
+        <HeroSection />
         <AboutSection />
         <CollectionSection />
         <FacilitiesSection />

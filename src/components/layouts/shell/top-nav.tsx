@@ -3,11 +3,14 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Bell, Search, Sun, Moon } from "lucide-react";
+import { FontGorditas, fontPlayFair } from "@/lib/fonts";
 
 const TopNav = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const font3 = fontPlayFair.className;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,13 +43,20 @@ const TopNav = () => {
             whileHover={{ scale: 1.05 }}
             className="flex items-center space-x-2"
           >
-            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">
-                S
-              </span>
+            <div>
+              <img
+                src="/assets/logo.png"
+                alt="logo"
+                className="w-8 h-8 rounded-full bg-primary flex items-center justify-center"
+              />
             </div>
-            <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-accent-foreground bg-clip-text text-transparent">
-              SweetApp
+
+            <h1
+              className={`text-[15px] font-bold bg-gradient-to-r from-primary to-accent-foreground bg-clip-text  ${font3} ${
+                !isScrolled ? "text-white" : "text-primary"
+              }`}
+            >
+              E-Perpus MTSN 39 Jakarta
             </h1>
           </motion.div>
 

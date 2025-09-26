@@ -36,14 +36,24 @@ enum Role {
   ADMIN
 }
 
+model GradeLevel {
+  id        String   @id @default(cuid())
+  name      String   // contoh: "Kelas 7", "Kelas 8", "Kelas 9"
+  order     Int      // urutan (7, 8, 9)
+  isFinal   Boolean  @default(false) // true kalau kelas terakhir (kelas 9)
+  
+  students  StudentProfile[]
+}
+
 model StudentProfile {
-  id       String @id @default(cuid())
-  userId   String @unique
-  nis      String // Nomor Induk Siswa
-  grade    String // Kelas, misal: "XI IPA 2"
-  major    String? // jurusan jika ada
+  id           String @id @default(cuid())
+  userId       String @unique
+  nis          String // Nomor Induk Siswa
+  gradeLevelId String
+  major        String? // jurusan jika ada
 
   user     User   @relation(fields: [userId], references: [id])
+  gradeLevel GradeLevel @relation(fields: [gradeLevelId], references: [id])
 }
 
 model TeacherProfile {

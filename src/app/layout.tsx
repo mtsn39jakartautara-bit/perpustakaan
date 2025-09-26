@@ -5,7 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { AuthProvider } from "@/providers/authProvider";
 
 export const metadata: Metadata = {
-  title: "pustakaan MTsN 39 Jakarta Utara - Pusat Literasi Terbaik",
+  title: "Pustakaan MTsN 39 Jakarta Utara - Pusat Literasi Terbaik",
   description:
     "Perpustakaan MTsN 39 adalah pusat literasi yang menyediakan berbagai koleksi buku, layanan informasi, dan ruang baca yang nyaman.",
   authors: [
@@ -14,7 +14,24 @@ export const metadata: Metadata = {
   creator: "Muhammad Rhaihan Adzani",
   keywords: ["perpustakaan", "buku", "literasi", "MTsN 39", "Jakarta Utara"],
   category: "Education",
-  robots: "",
+  robots: "index, follow", // default SEO-friendly
+
+  icons: {
+    icon: [
+      {
+        url: "/favicon_io/favicon-16x16.png",
+        sizes: "16x16",
+        type: "image/png",
+      },
+      {
+        url: "/favicon_io/favicon-32x32.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
+    ],
+    apple: [{ url: "/favicon_io/apple-touch-icon.png", sizes: "180x180" }],
+    other: [{ rel: "manifest", url: "/favicon_io/site.webmanifest" }],
+  },
 };
 
 export default function RootLayout({
