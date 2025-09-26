@@ -5,7 +5,10 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { AuthProvider } from "@/providers/authProvider";
 
 export const metadata: Metadata = {
-  title: "Pustakaan MTsN 39 Jakarta Utara - Pusat Literasi Terbaik",
+  title: {
+    default: "E-Perpustakaan MTSN 39", // fallback kalau page tidak override title
+    template: "%s | E-Perpustakaan MTSN 39", // format dinamis
+  },
   description:
     "Perpustakaan MTsN 39 adalah pusat literasi yang menyediakan berbagai koleksi buku, layanan informasi, dan ruang baca yang nyaman.",
   authors: [
@@ -14,7 +17,7 @@ export const metadata: Metadata = {
   creator: "Muhammad Rhaihan Adzani",
   keywords: ["perpustakaan", "buku", "literasi", "MTsN 39", "Jakarta Utara"],
   category: "Education",
-  robots: "index, follow", // default SEO-friendly
+  robots: "index, follow",
 
   icons: {
     icon: [

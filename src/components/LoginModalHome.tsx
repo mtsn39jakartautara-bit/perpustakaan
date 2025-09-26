@@ -9,12 +9,12 @@ const LoginModalHome = () => {
   const [isModalLogin, setIsModalLogin] = useState(false);
 
   const { data } = useSession();
-  console.log(data);
+  // console.log(data);
 
   const redirect = params.get("callbackUrl");
   const decodedRedirect = redirect ? decodeURIComponent(redirect) : "/";
-  console.log(redirect);
-  console.log(decodedRedirect);
+  // console.log(redirect);
+  // console.log(decodedRedirect);
   const isLogin = params.get("isLogin");
 
   // kalau ada salah satu param -> buka modal

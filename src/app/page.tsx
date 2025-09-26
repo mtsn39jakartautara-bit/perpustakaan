@@ -1,13 +1,13 @@
 import AboutSection from "@/components/AboutSection";
 import CollectionSection from "@/components/CollectionSection";
 import FacilitiesSection from "@/components/FacilitiesSection";
-import Footer from "@/components/Footer";
 import RulesSection from "@/components/RulesSection";
 import AwardSections from "@/components/Award";
 import LoginModalHome from "@/components/LoginModalHome";
+import HeroSection from "@/components/HeroSection";
+import Footer from "@/components/Footer";
 import { fontWorkSans } from "@/lib/fonts";
 import { Suspense } from "react";
-import HeroSection from "@/components/HeroSection";
 
 export default function Home() {
   const font3 = fontWorkSans.className;

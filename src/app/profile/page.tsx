@@ -22,9 +22,18 @@ import {
   CheckCircle,
   AlertCircle,
   Edit,
+  Users,
+  BookCheck,
+  Gift,
+  Upload,
+  ArrowUp,
+  Calculator,
 } from "lucide-react";
 import HeroProfile from "./components/heroProfile";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import UploadStudentData from "./components/uploadStudentData";
+import PromoteStudent from "./components/promoteStudent";
+import ManagementReward from "./components/managementReward";
 
 // Mock data based on your schema
 interface UserData {
@@ -81,13 +90,8 @@ const ProfilePage = () => {
       id: "user_123",
       name: "Ahmad Rizki",
       isActive: true,
-      role: "STUDENT",
+      role: "ADMIN", // Changed to ADMIN for testing
       createdAt: new Date("2024-01-01"),
-      studentProfile: {
-        nis: "202407001",
-        grade: "VII A",
-        major: "Umum",
-      },
       visits: [
         { id: "1", visitedAt: new Date("2024-03-01") },
         { id: "2", visitedAt: new Date("2024-03-05") },
@@ -186,14 +190,51 @@ const ProfilePage = () => {
     (rp) => rp.rewardCycle.isActive
   );
 
+  // Function to handle admin actions
+  const handleImportData = () => {
+    // Logic untuk import data baru
+    console.log("Import data baru");
+  };
+
+  const handleNaikKelas = () => {
+    // Logic untuk naik kelas (periode baru)
+    console.log("Naik kelas - periode baru");
+  };
+
+  const handleHitungReward = () => {
+    // Logic untuk menghitung semua reward di periode active
+    console.log("Menghitung reward periode aktif");
+  };
+
+  // Determine tabs based on user role
+  const getTabsConfig = () => {
+    if (userData.role === "ADMIN") {
+      return [
+        { value: "student-management", label: "Management Siswa" },
+        { value: "borrowing-management", label: "Management Peminjaman" },
+        { value: "reward-management", label: "Management Reward" },
+      ];
+    }
+
+    // default (selain ADMIN)
+    return [
+      { value: "profile", label: "Profil" },
+      { value: "activity", label: "Aktivitas" },
+      { value: "rewards", label: "Reward" },
+    ];
+  };
+
+  const tabsConfig = getTabsConfig();
+
+  console.log(tabsConfig.length);
+
   return (
     <div className="min-h-screen bg-gradient-soft">
       {/* Hero Banner dengan tinggi 50vh */}
-
       <HeroProfile userData={userData} getRoleLabel={getRoleLabel} />
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-12 -mt-20 relative z-10  pb-20">
+      <div className="container mx-auto px-4 py-12 -mt-20 relative z-10 pb-20">
         {/* Quick Stats */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -250,25 +291,16 @@ const ProfilePage = () => {
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="grid w-full grid-cols-3 bg-gradient-card p-1 rounded-lg shadow-card">
-            <TabsTrigger
-              value="profile"
-              className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md"
-            >
-              Profil
-            </TabsTrigger>
-            <TabsTrigger
-              value="activity"
-              className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md"
-            >
-              Aktivitas
-            </TabsTrigger>
-            <TabsTrigger
-              value="rewards"
-              className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md"
-            >
-              Reward
-            </TabsTrigger>
+          <TabsList className="flex w-full p-1 rounded-lg shadow-card">
+            {tabsConfig.map((tab, index) => (
+              <TabsTrigger
+                key={index}
+                value={tab.value}
+                className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md text-xs md:text-sm"
+              >
+                {tab.label}
+              </TabsTrigger>
+            ))}
           </TabsList>
 
           {/* Profile Tab */}
@@ -597,6 +629,105 @@ const ProfilePage = () => {
               </Card>
             </motion.div>
           </TabsContent>
+
+          {/* Admin Tabs - Only visible for ADMIN role */}
+          {userData.role === "ADMIN" && (
+            <>
+              {/* Student Management Tab */}
+              <TabsContent value="student-management" className="space-y-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <Card className="border-border shadow-soft">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <Users className="h-5 w-5" />
+                        Management Siswa
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Upload siswa */}
+                        <UploadStudentData />
+                        {/* Naik kelas Siswa */}
+                        <PromoteStudent />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </TabsContent>
+
+              {/* Borrowing Management Tab */}
+              <TabsContent value="borrowing-management" className="space-y-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <Card className="border-border shadow-soft">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <BookCheck className="h-5 w-5" />
+                        Management Peminjaman dan Pengembalian Buku
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <Card className="bg-gradient-card border-border">
+                          <CardHeader>
+                            <CardTitle className="flex items-center gap-2 text-lg">
+                              <BookOpen className="h-5 w-5" />
+                              Peminjaman Buku
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <p className="text-muted-foreground mb-4">
+                              Kelola proses peminjaman buku oleh siswa dan guru
+                            </p>
+                            <Button variant="outline" className="w-full">
+                              <BookOpen className="h-4 w-4 mr-2" />
+                              Kelola Peminjaman
+                            </Button>
+                          </CardContent>
+                        </Card>
+
+                        <Card className="bg-gradient-card border-border">
+                          <CardHeader>
+                            <CardTitle className="flex items-center gap-2 text-lg">
+                              <CheckCircle className="h-5 w-5" />
+                              Pengembalian Buku
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <p className="text-muted-foreground mb-4">
+                              Proses pengembalian buku dan perhitungan denda
+                            </p>
+                            <Button variant="outline" className="w-full">
+                              <CheckCircle className="h-4 w-4 mr-2" />
+                              Kelola Pengembalian
+                            </Button>
+                          </CardContent>
+                        </Card>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </TabsContent>
+
+              {/* Reward Management Tab */}
+              <TabsContent value="reward-management" className="space-y-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <ManagementReward />
+                </motion.div>
+              </TabsContent>
+            </>
+          )}
         </Tabs>
       </div>
     </div>
