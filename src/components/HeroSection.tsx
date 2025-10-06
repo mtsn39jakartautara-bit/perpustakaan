@@ -1,5 +1,3 @@
-"use client";
-
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { BookOpen, MapPin } from "lucide-react";
@@ -36,11 +34,12 @@ const HeroSection = () => {
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
           <Button
+            // onClick={() => (window.location.href = "/libraries")}
             size="lg"
-            className="bg-cream text-navy-soft hover:bg-cream/90 font-semibold px-8 py-3 text-lg shadow-hover transition-all duration-300 hover:scale-105"
+            variant={"outline"}
           >
-            <BookOpen className="mr-2 h-5 w-5" />
-            Jelajahi Koleksi
+            <BookOpen className="mr-2 h-5 w-5 dura" />
+            Jelajahi Rak Buku
           </Button>
         </motion.div>
       </div>

@@ -6,8 +6,8 @@ import { AuthProvider } from "@/providers/authProvider";
 
 export const metadata: Metadata = {
   title: {
-    default: "E-Perpustakaan MTSN 39", // fallback kalau page tidak override title
-    template: "%s | E-Perpustakaan MTSN 39", // format dinamis
+    default: "E-Perpustakaan MTSN 39",
+    template: "%s | E-Perpustakaan MTSN 39",
   },
   description:
     "Perpustakaan MTsN 39 adalah pusat literasi yang menyediakan berbagai koleksi buku, layanan informasi, dan ruang baca yang nyaman.",

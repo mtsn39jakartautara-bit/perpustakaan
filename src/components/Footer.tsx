@@ -28,7 +28,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-navy-soft text-white py-16 px-4">
+    <footer className="bg-primary text-white py-16 px-4">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -75,7 +75,10 @@ const Footer = () => {
           </div>
 
           <div className="text-cream/60 text-sm">
-            <p>&copy; 2024 Perpustakaan MTsN 39. Semua hak cipta dilindungi.</p>
+            <p>
+              &copy; {new Date().getFullYear()} Perpustakaan MTsN 39. Semua hak
+              cipta dilindungi.
+            </p>
             <p className="mt-2">
               Dikembangkan dengan ❤️ untuk kemajuan literasi
             </p>

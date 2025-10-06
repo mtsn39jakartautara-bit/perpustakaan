@@ -1,3 +1,4 @@
+"use client";
 import AboutSection from "@/components/AboutSection";
 import CollectionSection from "@/components/CollectionSection";
 import FacilitiesSection from "@/components/FacilitiesSection";
@@ -8,16 +9,18 @@ import HeroSection from "@/components/HeroSection";
 import Footer from "@/components/Footer";
 import { fontWorkSans } from "@/lib/fonts";
 import { Suspense } from "react";
+import Loading from "@/components/Loading";
 
 export default function Home() {
   const font3 = fontWorkSans.className;
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Loading />}>
       <main className={`min-h-screen font-sans ${font3}`}>
         <LoginModalHome />
 
         {/* Sections */}
+
         <HeroSection />
         <AboutSection />
         <CollectionSection />
