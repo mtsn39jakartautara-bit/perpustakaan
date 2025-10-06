@@ -3,6 +3,7 @@ import "./globals.css";
 import AppLayout from "@/components/layouts/shell/app-layout";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { AuthProvider } from "@/providers/authProvider";
+import RecaptchaProvider from "@/providers/recaptchaProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -35,12 +36,14 @@ export default function RootLayout({
     <html lang="id">
       <body>
         <AuthProvider>
-          <AppLayout>
-            <main>
-              {children}
-              <SpeedInsights />
-            </main>
-          </AppLayout>
+          <RecaptchaProvider>
+            <AppLayout>
+              <main>
+                {children}
+                <SpeedInsights />
+              </main>
+            </AppLayout>
+          </RecaptchaProvider>
         </AuthProvider>
       </body>
     </html>
