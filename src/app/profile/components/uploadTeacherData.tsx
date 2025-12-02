@@ -1,4 +1,4 @@
-// app/profile/components/uploadStudentData.tsx
+// app/profile/components/uploadTeacherData.tsx
 "use client";
 
 import { useState, useRef } from "react";
@@ -12,9 +12,12 @@ import {
   Download,
   Loader2,
   FileText,
+  User,
+  BookOpen,
+  Info,
 } from "lucide-react";
 
-const UploadStudentData = () => {
+const UploadTeacherData = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isImporting, setIsImporting] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -110,7 +113,7 @@ const UploadStudentData = () => {
           reject(new Error("Upload failed"));
         });
 
-        xhr.open("POST", "/api/admin/student/import-students");
+        xhr.open("POST", "/api/admin/teacher/import-teachers");
         xhr.responseType = "json";
         xhr.send(formData);
       });
@@ -141,10 +144,10 @@ const UploadStudentData = () => {
   // Fungsi untuk download template
   const downloadTemplate = () => {
     // Logic untuk download template Excel
-    const templateUrl = "/templates/student-import-template.xlsx";
+    const templateUrl = "/templates/teacher-import-template.xlsx";
     const link = document.createElement("a");
     link.href = templateUrl;
-    link.download = "template-import-siswa.xlsx";
+    link.download = "template-import-guru.xlsx";
     link.click();
   };
 
@@ -166,14 +169,101 @@ const UploadStudentData = () => {
     <Card className="bg-gradient-card border-border hover:shadow-lg transition-all duration-300">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg">
-          <Upload className="h-5 w-5" />
-          Import Data Baru
+          <User className="h-5 w-5" />
+          Import Data Guru Baru
         </CardTitle>
       </CardHeader>
       <CardContent>
         <p className="text-muted-foreground mb-4">
-          Import data siswa baru dari file Excel atau CSV
+          Import data guru baru dari file Excel atau CSV
         </p>
+
+        {/* Format Excel Info dengan warna primary */}
+        <div className="mb-6 p-4 bg-primary/5 border border-primary/20 rounded-lg">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="p-2 rounded-full bg-primary/10">
+              <Info className="h-4 w-4 text-primary" />
+            </div>
+            <h4 className="font-semibold text-primary">
+              Format Excel yang Diperlukan
+            </h4>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm bg-white border border-primary/20 rounded-lg overflow-hidden">
+              <thead>
+                <tr className="bg-primary/10">
+                  <th className="p-3 border-b border-primary/20 text-center font-medium text-primary">
+                    name
+                  </th>
+                  <th className="p-3 border-b border-primary/20 text-center font-medium text-primary">
+                    nip
+                  </th>
+                  <th className="p-3 border-b border-primary/20 text-center font-medium text-primary">
+                    subject
+                  </th>
+                  <th className="p-3 border-b border-primary/20 text-center font-medium text-primary">
+                    position
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="p-3 border-b border-primary/10 text-center text-muted-foreground">
+                    Nama Lengkap
+                  </td>
+                  <td className="p-3 border-b border-primary/10 text-center text-muted-foreground">
+                    Nomor Induk Pegawai
+                  </td>
+                  <td className="p-3 border-b border-primary/10 text-center text-muted-foreground">
+                    Mata Pelajaran
+                  </td>
+                  <td className="p-3 border-b border-primary/10 text-center text-muted-foreground">
+                    Jabatan (opsional)
+                  </td>
+                </tr>
+                <tr>
+                  <td className="p-3 text-center text-sm text-primary/70">
+                    Contoh: Dr. Andi Wijaya, S.Pd.
+                  </td>
+                  <td className="p-3 text-center text-sm text-primary/70">
+                    Contoh: 198003012003041001
+                  </td>
+                  <td className="p-3 text-center text-sm text-primary/70">
+                    Contoh: Matematika
+                  </td>
+                  <td className="p-3 text-center text-sm text-primary/70">
+                    Contoh: Wali Kelas 7A
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div className="mt-4 p-3 bg-primary/5 rounded-lg border border-primary/10">
+            <div className="flex items-start gap-2">
+              <BookOpen className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+              <div className="space-y-1 text-sm">
+                <p className="text-primary font-medium">Panduan Pengisian:</p>
+                <ul className="space-y-1 text-muted-foreground">
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary">•</span>
+                    <span>
+                      Kolom{" "}
+                      <span className="font-medium text-primary">position</span>{" "}
+                      bersifat opsional
+                    </span>
+                  </li>
+
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary">•</span>
+                    <span>NIP harus unik (tidak boleh duplikat)</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* Status Message */}
         {message && (
@@ -210,7 +300,7 @@ const UploadStudentData = () => {
             <input
               ref={fileInputRef}
               type="file"
-              id="excel-upload"
+              id="teacher-excel-upload"
               accept=".xlsx, .xls, .csv"
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
               onChange={(e) => {
@@ -277,16 +367,16 @@ const UploadStudentData = () => {
             className="overflow-hidden"
           >
             {selectedFile && (
-              <div className="flex items-center justify-between p-3 bg-green-50 border border-green-200 rounded-lg">
+              <div className="flex items-center justify-between p-3 bg-primary/5 border border-primary/20 rounded-lg">
                 <div className="flex items-center gap-3">
-                  <div className="bg-green-100 p-2 rounded">
-                    <FileText className="h-4 w-4 text-green-600" />
+                  <div className="bg-primary/10 p-2 rounded">
+                    <FileText className="h-4 w-4 text-primary" />
                   </div>
                   <div>
-                    <p className="font-medium text-green-800">
+                    <p className="font-medium text-primary">
                       {selectedFile.name}
                     </p>
-                    <p className="text-xs text-green-600">
+                    <p className="text-xs text-primary/70">
                       {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
                     </p>
                   </div>
@@ -296,7 +386,7 @@ const UploadStudentData = () => {
                   size="sm"
                   onClick={handleRemoveFile}
                   disabled={isImporting}
-                  className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                  className="text-primary hover:text-primary hover:bg-primary/10"
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -328,7 +418,7 @@ const UploadStudentData = () => {
             <Button
               variant="outline"
               onClick={downloadTemplate}
-              className="gap-2"
+              className="gap-2 border-primary/30 text-primary hover:bg-primary/10 hover:text-primary"
               disabled={isImporting}
             >
               <Download className="h-4 w-4" />
@@ -350,9 +440,11 @@ const UploadStudentData = () => {
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Progress Upload</span>
-                  <span className="font-medium">{uploadProgress}%</span>
+                  <span className="font-medium text-primary">
+                    {uploadProgress}%
+                  </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="w-full bg-primary/10 rounded-full h-2">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${uploadProgress}%` }}
@@ -369,4 +461,4 @@ const UploadStudentData = () => {
   );
 };
 
-export default UploadStudentData;
+export default UploadTeacherData;

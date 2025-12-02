@@ -422,7 +422,7 @@ const AwardSections = () => {
                                 }
                               >
                                 {student.gradeLevel
-                                  ? ` ${student.gradeLevel}`
+                                  ? `Kelas ${student.gradeLevel}`
                                   : "Kelas tidak diketahui"}
                                 {student.studentProfile?.major &&
                                   ` • ${student.studentProfile.major}`}

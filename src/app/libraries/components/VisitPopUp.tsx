@@ -2,7 +2,8 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const COUNTDOWN_TIME = 300; //300; // 5 menit dalam detik
+// const COUNTDOWN_TIME = 300; //300; // 5 menit dalam detik
+const COUNTDOWN_TIME = 3; //300; // 5 menit dalam detik
 
 interface VisitPopupProps {
   userId: string;

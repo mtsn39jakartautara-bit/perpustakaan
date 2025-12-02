@@ -35,6 +35,7 @@ import UploadStudentData from "./components/uploadStudentData";
 import PromoteStudent from "./components/promoteStudent";
 import ManagementReward from "./components/managementReward";
 import Loading from "@/components/Loading";
+import UploadTeacherData from "./components/uploadTeacherData";
 
 // Mock data based on your schema
 interface UserData {
@@ -145,8 +146,6 @@ const ProfilePage = () => {
   //   return <div>Loading...</div>;
   // }
 
-  console.log(data);
-
   const getRoleLabel = (role: string) => {
     switch (role) {
       case "STUDENT":
@@ -166,7 +165,7 @@ const ProfilePage = () => {
     switch (status) {
       case "active":
         return (
-          <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+          <Badge variant="secondary" className="bg-green-100 text-green-800">
             Aktif
           </Badge>
         );
@@ -204,9 +203,13 @@ const ProfilePage = () => {
     0
   );
 
+  console.log(userData?.rewardPoints);
+
   const activeRewardCycle = userData?.rewardPoints.find(
     (rp) => rp.rewardCycle.isActive
   );
+
+  console.log(activeRewardCycle?.points);
 
   // Function to handle admin actions
   const handleImportData = () => {
@@ -244,8 +247,6 @@ const ProfilePage = () => {
 
   const tabsConfig = getTabsConfig();
 
-  console.log(userData?.createdAt);
-
   if (loading) return <Loading />;
 
   if (data?.role === "ADMIN") {
@@ -279,8 +280,8 @@ const ProfilePage = () => {
 
             <Card className="bg-gradient-card border-border shadow-soft">
               <CardContent className="p-6 flex items-center gap-4">
-                <div className="bg-blue-100 p-3 rounded-full">
-                  <Calendar className="h-6 w-6 text-blue-600" />
+                <div className="bg-green-100 p-3 rounded-full">
+                  <Calendar className="h-6 w-6 text-green-600" />
                 </div>
                 <div>
                   <div className="text-2xl font-bold text-foreground">
@@ -298,9 +299,9 @@ const ProfilePage = () => {
                 </div>
                 <div>
                   <div className="text-2xl font-bold text-foreground">
-                    {totalPoints}
+                    {activeRewardCycle?.points}
                   </div>
-                  <p className="text-muted-foreground">Poin Reward</p>
+                  <p className="text-muted-foreground">Point Periode ini</p>
                 </div>
               </CardContent>
             </Card>
@@ -344,6 +345,8 @@ const ProfilePage = () => {
                       <UploadStudentData />
                       {/* Naik kelas Siswa */}
                       <PromoteStudent />
+                      {/* Upload Guru */}
+                      <UploadTeacherData />
                     </div>
                   </CardContent>
                 </Card>
@@ -617,8 +620,8 @@ const ProfilePage = () => {
 
             <Card className="bg-gradient-card border-border shadow-soft">
               <CardContent className="p-6 flex items-center gap-4">
-                <div className="bg-blue-100 p-3 rounded-full">
-                  <Calendar className="h-6 w-6 text-blue-600" />
+                <div className="bg-green-100 p-3 rounded-full">
+                  <Calendar className="h-6 w-6 text-green-600" />
                 </div>
                 <div>
                   <div className="text-2xl font-bold text-foreground">
@@ -636,9 +639,9 @@ const ProfilePage = () => {
                 </div>
                 <div>
                   <div className="text-2xl font-bold text-foreground">
-                    {totalPoints}
+                    {activeRewardCycle?.points}
                   </div>
-                  <p className="text-muted-foreground">Poin Reward</p>
+                  <p className="text-muted-foreground">Point Periode ini</p>
                 </div>
               </CardContent>
             </Card>

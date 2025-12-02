@@ -24,6 +24,8 @@ export async function POST(req: Request) {
     const sheet = workbook.Sheets[sheetName];
     const json: any[] = XLSX.utils.sheet_to_json(sheet);
 
+    console.log(json);
+
     let created = 0;
 
     for (const row of json) {
@@ -59,6 +61,8 @@ export async function POST(req: Request) {
 
       created++;
     }
+
+    console.log(`✅ Import selesai, ${created} siswa berhasil ditambahkan.`);
 
     return NextResponse.json({
       message: `✅ Import selesai, ${created} siswa berhasil ditambahkan.`,

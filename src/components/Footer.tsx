@@ -8,12 +8,13 @@ const Footer = () => {
     {
       icon: MapPin,
       title: "Alamat",
-      content: "Jl. Pendidikan No. 123, Jakarta Selatan",
+      content:
+        "J1. H. Amsir No. 71 Sunter Jaya - Tanjung Priok Jakarta Utara 14350",
     },
     {
       icon: Phone,
       title: "Telepon",
-      content: "(021) 1234-5678",
+      content: "(021) 65837045",
     },
     {
       icon: Mail,

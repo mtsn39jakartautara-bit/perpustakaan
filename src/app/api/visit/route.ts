@@ -54,12 +54,12 @@ export async function POST(req: NextRequest) {
           },
         },
         update: {
-          points: { increment: 1 },
+          points: { increment: 10 },
         },
         create: {
           userId,
           rewardCycleId: activeCycle.id,
-          points: 1,
+          points: 10,
         },
       });
 

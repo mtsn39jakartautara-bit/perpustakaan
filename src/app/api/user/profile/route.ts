@@ -5,23 +5,20 @@ import prisma from "@/utils/prisma"; // prisma client
 
 export async function GET() {
   const session = await getServerSession(authOptions);
-
-  if (!session || !session.user?.id) {
+  if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const userId = session.user.id;
 
   try {
+    // ambil data user seperti API lama
     const user = await prisma.user.findUnique({
       where: { id: userId },
       include: {
         visits: true,
         borrowings: {
           include: { book: true },
-        },
-        rewardPoints: {
-          include: { rewardCycle: true },
         },
         studentProfile: {
           include: { gradeLevel: true },
@@ -35,9 +32,38 @@ export async function GET() {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    console.log("✅ Fetched user profile:", user);
+    // ambil semua cycle
+    const cycles = await prisma.rewardCycle.findMany({
+      orderBy: { startDate: "desc" },
+    });
 
-    return NextResponse.json(user);
+    // ambil rewardPoint user yang ada
+    const userPoints = await prisma.rewardPoint.findMany({
+      where: { userId },
+    });
+
+    // bentuk rewardHistory (cycle + poin)
+    const rewardHistory = cycles.map((cycle) => {
+      const rp = userPoints.find((p) => p.rewardCycleId === cycle.id);
+      return {
+        rewardCycle: cycle,
+        points: rp ? rp.points : 0,
+      };
+    });
+
+    // hitung total point
+    const totalPoints = rewardHistory.reduce((sum, r) => sum + r.points, 0);
+
+    // cycle aktif
+    const activeCycle = rewardHistory.find((r) => r.rewardCycle.isActive);
+
+    // RETURN FORMAT YANG SAMA + tambahan reward
+    return NextResponse.json({
+      ...user, // visits, borrowings, profile, dsb.
+      rewardPoints: rewardHistory, // override lama
+      totalPoints,
+      activeRewardCycle: activeCycle,
+    });
   } catch (err) {
     console.error(err);
     return NextResponse.json(
