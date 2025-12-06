@@ -73,7 +73,7 @@ const BookManagementTab = () => {
           {activeSection === "import" ? (
             <ImportBuku />
           ) : (
-            <ListBuku onEdit={handleEditBook} onDelete={handleDeleteBook} />
+            <ListBuku onDelete={handleDeleteBook} />
           )}
         </CardContent>
 
