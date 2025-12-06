@@ -77,15 +77,28 @@ model VisitorProfile {
 
 
 model Book {
-  id          String       @id @default(cuid())
-  title       String
-  author      String
-  publishedAt DateTime?
-  stock       Int          @default(0)
+  id            String      @id @default(cuid())
+  
+  // --- Informasi Dasar Buku ---
+  bookCode      String      // Kode Buku, contoh: F.101.20
+  isbn          String?     // ISBN bisa nullable karena tidak semua buku punya ISBN
+  title         String
+  publisher     String?
+  author        String?
+  locationRack  String?     // Lokasi rak penyimpanan
+  publishYear   Int?        // Tahun terbit: 2018
+  stock         Int         @default(0)
 
-  borrowings  Borrowing[]
-  createdAt   DateTime     @default(now())
+  // --- Tambahan ---
+  abstract      String?     @db.Text    // Abstraksi atau deskripsi panjang
+
+  // --- Relasi ---
+  borrowings    Borrowing[]
+
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 }
+
 
 
 model Borrowing {

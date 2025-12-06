@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth"; // pastikan ada file auth.ts untuk config next-auth
-import prisma from "@/utils/prisma"; // prisma client
+import { authOptions } from "@/lib/auth";
+import prisma from "@/utils/prisma";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -12,17 +12,15 @@ export async function GET() {
   const userId = session.user.id;
 
   try {
-    // ambil data user seperti API lama
+    console.log("-----------------------------");
+
+    // 1️⃣ AMBIL USER + PROFILES + BORROWINGS SEKALIGUS (1 query)
     const user = await prisma.user.findUnique({
       where: { id: userId },
       include: {
         visits: true,
-        borrowings: {
-          include: { book: true },
-        },
-        studentProfile: {
-          include: { gradeLevel: true },
-        },
+        borrowings: { include: { book: true } },
+        studentProfile: { include: { gradeLevel: true } },
         teacherProfile: true,
         visitorProfile: true,
       },
@@ -32,37 +30,40 @@ export async function GET() {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // ambil semua cycle
+    // 2️⃣ AMBIL SEMUA CYCLE + REWARD POINT USER SEKALIGUS (1 query)
     const cycles = await prisma.rewardCycle.findMany({
       orderBy: { startDate: "desc" },
+      include: {
+        rewardPoints: {
+          where: { userId },
+          select: { points: true },
+        },
+      },
     });
 
-    // ambil rewardPoint user yang ada
-    const userPoints = await prisma.rewardPoint.findMany({
-      where: { userId },
-    });
+    // 3️⃣ BENTUK REWARD HISTORY TANPA find() LAGI
+    const rewardHistory = cycles.map((cycle) => ({
+      rewardCycle: {
+        id: cycle.id,
+        title: cycle.title,
+        startDate: cycle.startDate,
+        endDate: cycle.endDate,
+        isActive: cycle.isActive,
+      },
+      points: cycle.rewardPoints.length > 0 ? cycle.rewardPoints[0].points : 0,
+    }));
 
-    // bentuk rewardHistory (cycle + poin)
-    const rewardHistory = cycles.map((cycle) => {
-      const rp = userPoints.find((p) => p.rewardCycleId === cycle.id);
-      return {
-        rewardCycle: cycle,
-        points: rp ? rp.points : 0,
-      };
-    });
-
-    // hitung total point
+    // 4️⃣ TOTAL POINT
     const totalPoints = rewardHistory.reduce((sum, r) => sum + r.points, 0);
 
-    // cycle aktif
-    const activeCycle = rewardHistory.find((r) => r.rewardCycle.isActive);
+    // 5️⃣ CYCLE AKTIF
+    const activeRewardCycle = rewardHistory.find((r) => r.rewardCycle.isActive);
 
-    // RETURN FORMAT YANG SAMA + tambahan reward
     return NextResponse.json({
-      ...user, // visits, borrowings, profile, dsb.
-      rewardPoints: rewardHistory, // override lama
+      ...user,
+      rewardPoints: rewardHistory,
       totalPoints,
-      activeRewardCycle: activeCycle,
+      activeRewardCycle,
     });
   } catch (err) {
     console.error(err);

@@ -5,73 +5,95 @@ export async function POST(req: NextRequest) {
   try {
     const { userId } = await req.json();
 
-    console.log("🔍 Received visit request for userId:", userId);
-
     if (!userId) {
-      console.error("❌ UserId is required");
       return NextResponse.json(
         { success: false, error: "UserId wajib dikirim" },
         { status: 400 }
       );
     }
 
-    // Cek apakah user exists
+    // Cek apakah user ada
     const user = await prisma.user.findUnique({
       where: { id: userId },
     });
 
     if (!user) {
-      console.error("❌ User not found:", userId);
       return NextResponse.json(
         { success: false, error: "User tidak ditemukan" },
         { status: 404 }
       );
     }
 
-    console.log("✅ User found:", user.name);
+    // ------------------------------
+    // 🔍 CEK VISIT HARI INI
+    // ------------------------------
 
-    // 1. Simpan visit baru
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date();
+    endOfDay.setHours(23, 59, 59, 999);
+
+    const existingVisitToday = await prisma.rewardPoint.findFirst({
+      where: {
+        userId,
+        createdAt: {
+          gte: startOfDay,
+          lte: endOfDay,
+        },
+      },
+    });
+
+    if (existingVisitToday) {
+      return NextResponse.json(
+        {
+          success: false,
+          alreadyVisited: true,
+          message: "Hari ini kamu sudah mendapatkan reward point.",
+        },
+        { status: 200 }
+      );
+    }
+
+    // ------------------------------
+    // 📝 SIMPAN VISIT BARU
+    // ------------------------------
     const visit = await prisma.visit.create({
       data: { userId },
     });
 
-    console.log("✅ Visit created:", visit.id);
-
-    // 2. Cari rewardCycle yang sedang aktif
+    // ------------------------------
+    // 🔍 CARI CYCLE AKTIF
+    // ------------------------------
     const activeCycle = await prisma.rewardCycle.findFirst({
       where: { isActive: true },
     });
 
-    console.log("🔍 Active reward cycle:", activeCycle);
-
     if (activeCycle) {
-      // 3. Tambahkan / buat rewardPoint user pada cycle aktif
-      const rewardPoint = await prisma.rewardPoint.upsert({
+      // ------------------------------
+      // 🎁 TAMBAH REWARD POINT (1x per hari)
+      // ------------------------------
+
+      await prisma.rewardPoint.upsert({
         where: {
           userId_rewardCycleId: {
             userId,
             rewardCycleId: activeCycle.id,
           },
         },
-        update: {
-          points: { increment: 10 },
-        },
+        update: { points: { increment: 10 } },
         create: {
           userId,
           rewardCycleId: activeCycle.id,
           points: 10,
         },
       });
-
-      console.log("✅ Reward point updated:", rewardPoint);
-    } else {
-      console.log("⚠️ No active reward cycle found");
     }
 
     return NextResponse.json({
       success: true,
       visit,
-      message: "Visit berhasil dicatat",
+      message: "Visit berhasil dicatat & reward diberikan",
     });
   } catch (error) {
     console.error("❌ API /visit error:", error);

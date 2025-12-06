@@ -14,7 +14,9 @@ const HeroSection = () => {
           className="text-4xl md:text-6xl font-bold mb-6 leading-tight"
         >
           Selamat Datang di
-          <span className="block text-cream mt-2">Perpustakaan MTsN 39</span>
+          <span className="block text-cream mt-2">
+            Asy-Syifa Binti Abdillah MTsN 39 Jakarta
+          </span>
         </motion.h1>
 
         <motion.p
