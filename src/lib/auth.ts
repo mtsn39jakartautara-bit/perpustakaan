@@ -27,6 +27,7 @@ export const authOptions: NextAuthOptions = {
             OR: [
               { studentProfile: { nis: credentials.login } },
               { name: credentials.login },
+              { teacherProfile: { nip: credentials.login } },
             ],
           },
         });
