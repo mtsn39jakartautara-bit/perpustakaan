@@ -39,9 +39,9 @@ const BottomNav = () => {
 
   const handleItemClick = (item: any) => {
     if (item.onClick) {
-      item.onClick(); // Jalankan onClick jika ada
+      item.onClick();
     } else {
-      setActiveItem(item.path); // Set active item untuk navigasi biasa
+      setActiveItem(item.path);
     }
   };
 
@@ -52,7 +52,7 @@ const BottomNav = () => {
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="bg-card backdrop-blur-md bg-opacity-90 border border-border rounded-2xl shadow-lg p-2 max-w-md w-full"
+          className="bg-gradient-to-b from-background/30 to-background/30 shadow-soft backdrop-blur-md bg-opacity-90 border border-border rounded-2xl shadow-lg p-2 max-w-md w-full"
         >
           <div className="flex justify-between items-center relative">
             {navItems.map((item, index) => {

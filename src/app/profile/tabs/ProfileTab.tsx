@@ -55,11 +55,14 @@ const ProfileTab = ({
                 {getRoleLabel(userData.role)}
               </p>
             </div>
-            <div>
+            <div className="flex flex-col">
               <label className="text-sm font-medium text-muted-foreground">
                 Status
               </label>
-              <Badge variant={userData.isActive ? "default" : "secondary"}>
+              <Badge
+                className="self-start mt-2"
+                variant={userData.isActive ? "default" : "secondary"}
+              >
                 {userData.isActive ? "Aktif" : "Nonaktif"}
               </Badge>
             </div>

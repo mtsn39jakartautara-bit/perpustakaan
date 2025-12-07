@@ -67,7 +67,7 @@ const Footer = () => {
         >
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-cream mb-2">
-              Perpustakaan MTsN 39
+              Perpustakaan Asy-Syifa Binti Abdillah MTsN 39 Jakarta
             </h2>
             <p className="text-cream/80 max-w-2xl mx-auto">
               Membangun generasi cerdas dan gemar membaca melalui layanan
