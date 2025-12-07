@@ -315,6 +315,8 @@ const AwardSections = () => {
     }
   };
 
+  console.log(awardData);
+
   const getStudentRole = (index: number): string => {
     const roles = ["Siswa Teraktif", "Pembaca Terbanyak", "Reviewer Terbaik"];
     return roles[index] || "Siswa Berprestasi";
