@@ -68,7 +68,7 @@ const AboutSection = () => {
           <h2
             className={`text-3xl md:text-4xl font-bold text-navy-soft mb-6 ${font}`}
           >
-            Perpustakaan MTsN 39
+            Perpustakaan Asy-Syifa Binti Abdillah MTsN 39 Jakarta
           </h2>
           <p className="text-lg text-warm-gray max-w-3xl mx-auto leading-relaxed">
             Perpustakaan MTsN 39 adalah pusat literasi yang menyediakan berbagai
